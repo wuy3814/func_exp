@@ -51,3 +51,28 @@ Ob.power<-function(alpha,df1, df2, f,N){
   lam<-f^2*N
   power<-1-pf(qf(1-alpha, df1, df2), df1, df2, ncp=lam)
   return(power)
+
+
+
+# Fisher transformation for ICC
+# the k here refers to the number of raters
+# the r here refers to the ICC value
+FisherICCz<-function(k, r){ 
+  .5*log((1+(k-1)*r)/(1-r))
+}
+FisherICCr<-function(k, z){
+  (exp(2*z)-1)/(k+exp(2*z)-1)
+}
+
+## Calculation of COhen's D using the safest way, despite the homogeneity 
+## or heterogeneity of variances
+
+sp<-function(n1,s1, n2, s2){  ## the function for calculating Pooled SD
+  spool<-sqrt(((n1-1)*s1^2+(n2-1)*s2^2)/(n1+n2-2))
+  return(spool)
+}
+
+cohenD<-function(mu1, mu2, sp){
+  d<-(mu1-mu2)/sp
+  return(d)
+}
