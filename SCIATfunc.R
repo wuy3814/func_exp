@@ -1,11 +1,11 @@
 ### Function Definition
+## Used to calculate D score and counts of correct response for the data generated in SC-IAT program in INQUISIT
 
 # Correction of mistyped subject number
 subjectNoCorrection <- function(x){
   x[x$subject == 1 & x$group != 1,]$subject <- x[x$subject == 1 & x$group != 1,]$group
   return(x)
 }
-# maleAbility[maleAbility$subject == 1 & maleAbility$group != 1,]$subject <- maleAbility[maleAbility$subject == 1 & maleAbility$group != 1,]$group
 
 # Removal of reminder
 removeReminder <- function(x){
