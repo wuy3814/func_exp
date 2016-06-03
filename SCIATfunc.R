@@ -58,6 +58,7 @@ preparation <- function(x){
   x <- errorPenalty(x)
 }
 
+## Generate the counts of correct and error responses, used to apply MPT Models
 shootCount <- function(x){
   library(plyr)
   library(reshape2)
