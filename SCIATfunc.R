@@ -69,3 +69,48 @@ shootCount <- function(x){
   x[is.na(x)] <- 0
   return(x)
 }
+
+
+### Used to exclude subjects with abnormally little trials or too many trials
+## Here I applied Mean plus/minus 3 SD standards. Might consider using MAD statistics in the future.
+cleanErrorSubject <- function(x){
+  xtable <- table(x$subject)
+  meantable <- mean(xtable)
+  sdtable <- sd(xtable)
+  upp <- meantable + 3 * sdtable
+  low <- meantable - 3 * sdtable
+  lowSubject <- as.numeric(names(xtable[xtable < low]))
+  uppSubject <- as.numeric(names(xtable[xtable > upp]))
+  x <- x[!(x$subject %in% lowSubject | x$subject %in% uppSubject), ]
+  return(x)
+}
+
+###
+## A function to transform named vector to a matrix with names as a column
+matricize <- function(x){
+  matrix(c(as.numeric(names(x)), x), nrow = length(x))
+}
+
+framize <- function(x){
+  x <- matricize(x)
+  ## Transform matricized data into data.frame, and assaign column names
+  x <- data.frame(x)
+  colnames(x) <- c("subject", "value")
+  return(x)
+}
+
+###
+# This function is used to combine Yanlei's 2*2 Mixed design data
+mixedMerge <- function(O, OI, OO, factorize = FALSE){
+  O_OI <- merge(framize(O), framize(OI), by = "subject")
+  O_OI$IO <- 1
+  O_OO <- merge(framize(O), framize(OO), by = "subject")
+  O_OO$IO <- 0
+  mixed <- rbind(O_OI, O_OO)
+  colnames(mixed)[2:3] <- c("Pre", "Crossed")
+  if(factorize == TRUE){
+    mixed$IO <- factor(mixed$IO, levels = c(1, 0), labels = c("I", "O"))
+  }
+  return(mixed)
+}
+
