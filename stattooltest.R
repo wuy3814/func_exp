@@ -51,7 +51,7 @@ Ob.power<-function(alpha,df1, df2, f,N){
   lam<-f^2*N
   power<-1-pf(qf(1-alpha, df1, df2), df1, df2, ncp=lam)
   return(power)
-
+}
 
 
 # Fisher transformation for ICC
@@ -72,7 +72,7 @@ sp<-function(n1,s1, n2, s2){  ## the function for calculating Pooled SD
   return(spool)
 }
 
-cohenD<-function(mu1, mu2, sp){
-  d<-(mu1-mu2)/sp
+cohenD <- function(mu1, mu2, sp){
+  d <- (mu1-mu2)/sp
   return(d)
 }
