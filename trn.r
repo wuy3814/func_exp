@@ -10,7 +10,7 @@
 Z <- function(x){
   y <- dnorm(x)/(1 - pnorm(x))
   return(y)
-}
+} # NB: In Cohen(1959), x here should be ksi, which is in standard unit.
 
 theta <- function(x){
   y <- Z(x)/(Z(x) - x)
